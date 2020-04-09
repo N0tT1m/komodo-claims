@@ -15,5 +15,7 @@ namespace KomodoClaimsConsole
         DateTime DateOfIncident { get; set; }
         DateTime DateOfClaim { get; set; }
         bool IsValid { get; set; }
+
+        void PrintClaim();
     }
 }

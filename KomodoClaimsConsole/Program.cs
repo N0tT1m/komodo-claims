@@ -11,6 +11,7 @@ namespace KomodoClaimsConsole
         static void Main(string[] args)
         {
             ClaimRepository repo = new ClaimRepository();
+            repo.SeedQueue();
             ProgramUI program = new ProgramUI(repo);
             program.Run();
             Console.ReadLine();

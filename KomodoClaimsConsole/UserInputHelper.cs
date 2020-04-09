@@ -51,7 +51,8 @@ namespace KomodoClaimsConsole
             {
                 claim.DateOfIncident = incidentDate;
             }
-            claim.DateOfClaim = DateTime.Today;
+            string dateOfClaim = DateTime.Today.ToString();
+            claim.DateOfClaim = DateTime.Parse(dateOfClaim, enUS, DateTimeStyles.NoCurrentDateDefault);
             int daysDiff = ((TimeSpan)(claim.DateOfClaim - claim.DateOfIncident)).Days;
             if (daysDiff <= 30)
             {

@@ -12,6 +12,7 @@ namespace KomodoClaimsConsole
         private ClaimRepository _repo = new ClaimRepository();
         Claim claim = new Claim();
 
+
         bool running = true;
 
         public ProgramUI(ClaimRepository claimRepository)
@@ -33,16 +34,38 @@ namespace KomodoClaimsConsole
                 switch (userInput)
                 {
                     case 1:
+                        Queue<Claim> queueClaim = _repo.GetAllClaims();
+                        for (int index = 0; index < queueClaim.Count; index++)
+                        {
+                            claim.PrintClaim();
+                        }
                         break;
                     case 2:
-                        claim = _repo.NextClaimInQueue();
-                        Console.WriteLine(claim);
-                        break;
+
+                            try
+                            {
+                                claim = _repo.NextClaimInQueue();
+                                if (claim == null)
+                                {
+                                    System.Console.WriteLine("The queue is currently empty.");
+                                }
+                                else 
+                                {
+                                    claim.PrintClaim();
+                                }
+                            }
+                            catch (InvalidOperationException)
+                            {
+                                System.Console.WriteLine("The queue is currently empty.");
+                            }
+                            break;
                     case 3:
                         claim = _userInputHelper.GetNewClaim();
                         _repo.CreateNewClaim(claim);
                         break;
                 }
+                Console.ReadLine();
+                Console.Clear();
             }
         }
     }
