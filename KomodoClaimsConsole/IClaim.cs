@@ -17,5 +17,6 @@ namespace KomodoClaimsConsole
         bool IsValid { get; set; }
 
         void PrintClaim();
+        void PrintClaims();
     }
 }

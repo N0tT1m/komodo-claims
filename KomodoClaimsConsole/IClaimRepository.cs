@@ -6,6 +6,6 @@ namespace KomodoClaimsConsole
     {
         Queue<Claim> GetAllClaims();
         Claim NextClaimInQueue();
-        void CreateNewClaim(Claim claim);
+        bool CreateNewClaim(Claim claim);
     }
 }

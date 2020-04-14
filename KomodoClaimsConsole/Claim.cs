@@ -19,7 +19,7 @@ namespace KomodoClaimsConsole
 
         public Claim()
         {
-            
+
         }
 
         public int ClaimID { get; set; } = 1;
@@ -45,14 +45,34 @@ namespace KomodoClaimsConsole
             }
         }
 
+        public void PrintClaims()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append(String.Format($"{ClaimID,-20} {ClaimType,-20} {Description,-20}" +
+            $"{"$" + ClaimAmount,-20} {DateOfIncident,-30} {DateOfClaim,-30} {IsValid,-20}"));
+            Console.WriteLine(sb);
+        }
+
         public void PrintClaim()
         {
-            Console.WriteLine(String.Format($"{"ClaimID", -20} {"Type", -20} {"Description", -20} {"Amount", -20}" +
-            $"{"DateOfAccident", -30} {"DateOfClaim", -30} {"IsValid", -20}\n\n"));
+            Console.WriteLine(String.Format($"{"ClaimID",-20} {"Type",-20} {"Description",-20} {"Amount",-20}" +
+            $"{"DateOfAccident",-30} {"DateOfClaim",-30} {"IsValid",-20}\n\n"));
             StringBuilder sb = new StringBuilder();
-            sb.Append(String.Format($"{ClaimID, -20} {ClaimType, -20} {Description, -20}" +
-            $"{"$" + ClaimAmount, -20} {DateOfIncident, -30} {DateOfClaim, -30} {IsValid, -20}"));
-            System.Console.WriteLine(sb);
+            sb.Append(String.Format($"{ClaimID,-20} {ClaimType,-20} {Description,-20}" +
+            $"{"$" + ClaimAmount,-20} {DateOfIncident,-30} {DateOfClaim,-30} {IsValid,-20}"));
+            Console.WriteLine(sb);
+        }
+
+        public Claim DealWithNextInQueue(ClaimRepository repo)
+        {
+            Queue<Claim> claimQueue = repo.GetAllClaims();
+            claimQueue.Peek();
+            Console.WriteLine("Do you want to deal with this claim now (y/n)?");
+            if (Console.ReadLine().ToLower() == "yes")
+            {
+                return claimQueue.Dequeue(); 
+            }
+            return null;
         }
     }
 }

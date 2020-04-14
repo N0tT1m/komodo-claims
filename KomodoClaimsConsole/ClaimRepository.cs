@@ -14,7 +14,8 @@ namespace KomodoClaimsConsole
             ClaimType = Claim.TypeClaim.Car,
             Description = "Crash on I-70",
             ClaimAmount = 4000,
-            DateOfIncident = DateTime.Today,
+            DateOfIncident = DateTime.Parse("1/2/2020"),
+            DateOfClaim = DateTime.Today,
             IsValid = true
         };
 
@@ -25,10 +26,13 @@ namespace KomodoClaimsConsole
             _queue.Enqueue(claim1);
         }
         
-        public void CreateNewClaim(Claim claim)
+        public bool CreateNewClaim(Claim claim)
         {
+            int startingCount = _queue.Count;
             _queue.Enqueue(claim);
             Console.WriteLine("Success");
+            bool wasCreated = (_queue.Count > startingCount);
+            return wasCreated;
         }
 
         public Queue<Claim> GetAllClaims()

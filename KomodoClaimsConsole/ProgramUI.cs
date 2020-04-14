@@ -34,31 +34,42 @@ namespace KomodoClaimsConsole
                 switch (userInput)
                 {
                     case 1:
-                        Queue<Claim> queueClaim = _repo.GetAllClaims();
-                        for (int index = 0; index < queueClaim.Count; index++)
+                        Queue<Claim> claims = _repo.GetAllClaims();
+                        Console.WriteLine(String.Format($"{"ClaimID",-20} {"Type",-20} {"Description",-20} {"Amount",-20}" +
+                        $"{"DateOfAccident",-30} {"DateOfClaim",-30} {"IsValid",-20}\n\n"));
+                        foreach (var claim in claims)
                         {
-                            claim.PrintClaim();
+                            claim.PrintClaims();
+                            Console.WriteLine("\n");
                         }
                         break;
                     case 2:
-
-                            try
+                        try
+                        {
+                            Queue<Claim> claimQueue = _repo.GetAllClaims();
+                            Claim claim = new Claim();
+                            claim = claimQueue.First();
+                            claim.PrintClaim();
+                            Console.WriteLine("Do you want to deal with this claim now (y/n)?");
+                            if (Console.ReadLine().ToLower() == "y" +
+                                "")
                             {
-                                claim = _repo.NextClaimInQueue();
+
                                 if (claim == null)
                                 {
                                     System.Console.WriteLine("The queue is currently empty.");
                                 }
-                                else 
+                                else
                                 {
-                                    claim.PrintClaim();
+                                    _repo.NextClaimInQueue();
                                 }
                             }
-                            catch (InvalidOperationException)
-                            {
-                                System.Console.WriteLine("The queue is currently empty.");
-                            }
-                            break;
+                        }
+                        catch (InvalidOperationException)
+                        {
+                            System.Console.WriteLine("The queue is currently empty.");
+                        }
+                        break;
                     case 3:
                         claim = _userInputHelper.GetNewClaim();
                         _repo.CreateNewClaim(claim);

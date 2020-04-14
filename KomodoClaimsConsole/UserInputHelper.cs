@@ -42,28 +42,32 @@ namespace KomodoClaimsConsole
             {
                 Console.WriteLine("Please enter a valid claim type");
             }
-            Console.WriteLine("Please enter a description for your claim");
-            claim.Description = Console.ReadLine();
-            Console.WriteLine("Please enter an amount for your claim");
-            claim.ClaimAmount = int.Parse(Console.ReadLine());
-            Console.WriteLine("Please enter the date the incident occured");
-            if (!DateTime.TryParseExact(Console.ReadLine(), "MM/dd/yyyy", enUS, DateTimeStyles.None, out incidentDate))
+            finally
             {
-                claim.DateOfIncident = incidentDate;
-            }
-            string dateOfClaim = DateTime.Today.ToString();
-            claim.DateOfClaim = DateTime.Parse(dateOfClaim, enUS, DateTimeStyles.NoCurrentDateDefault);
-            int daysDiff = ((TimeSpan)(claim.DateOfClaim - claim.DateOfIncident)).Days;
-            if (daysDiff <= 30)
-            {
-                Console.WriteLine((claim.DateOfClaim - claim.DateOfIncident).TotalDays);
-                claim.IsValid = true;
-                Console.WriteLine(claim.IsValid);
-            }
-            else
-            {
-                claim.IsValid = false;
-                Console.WriteLine(claim.IsValid);
+                claim.ClaimID++;
+                Console.WriteLine("Please enter a description for your claim");
+                claim.Description = Console.ReadLine();
+                Console.WriteLine("Please enter an amount for your claim");
+                claim.ClaimAmount = int.Parse(Console.ReadLine());
+                Console.WriteLine("Please enter the date the incident occured");
+                if (!DateTime.TryParseExact(Console.ReadLine(), "MM/dd/yyyy", enUS, DateTimeStyles.None, out incidentDate))
+                {
+                    claim.DateOfIncident = incidentDate;
+                }
+                string dateOfClaim = DateTime.Today.ToString();
+                claim.DateOfClaim = DateTime.Parse(dateOfClaim, enUS, DateTimeStyles.NoCurrentDateDefault);
+                int daysDiff = ((TimeSpan)(claim.DateOfClaim - claim.DateOfIncident)).Days;
+                if (daysDiff <= 30)
+                {
+                    Console.WriteLine((claim.DateOfClaim - claim.DateOfIncident).TotalDays);
+                    claim.IsValid = true;
+                    Console.WriteLine(claim.IsValid);
+                }
+                else
+                {
+                    claim.IsValid = false;
+                    Console.WriteLine(claim.IsValid);
+                }
             }
 
             return claim;
