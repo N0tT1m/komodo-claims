@@ -8,8 +8,6 @@ namespace ClaimRepositoryTests
     [TestClass]
     public class RepositoryTests
     {
-        Queue<Claim> queue = new Queue<Claim>();
-        ClaimRepository repo = new ClaimRepository();
         Claim claim = new Claim()
         {
             ClaimType = Claim.TypeClaim.Car,
@@ -19,6 +17,9 @@ namespace ClaimRepositoryTests
             DateOfClaim = DateTime.Today,
             IsValid = true
         };
+
+        Queue<Claim> queue = new Queue<Claim>();
+        ClaimRepository repo = new ClaimRepository();
 
         [TestMethod]
         public void CreateNewClaim_ShouldCreateNewClaim()
@@ -30,12 +31,23 @@ namespace ClaimRepositoryTests
         [TestMethod]
         public void GetNextInQueue_ShouldReturnTheNextClaim()
         {
-            repo.SeedQueue();
+            queue.Enqueue(claim);
 
-            Claim claim1 = claim;
-            Claim claim2 = repo.NextClaimInQueue();
+            Claim claim1 =  claim;
+            Claim claim2 = queue.Dequeue();
 
             Assert.AreEqual(claim1, claim2);
+        }
+
+        [TestMethod]
+        public void GetAllClaims_ShouldReturnQueue()
+        {
+            repo.SeedQueue();
+
+            Queue<Claim> queue1 = queue;
+            queue.Enqueue(claim);
+
+            Assert.AreEqual(queue, queue1);
         }
     }
 }

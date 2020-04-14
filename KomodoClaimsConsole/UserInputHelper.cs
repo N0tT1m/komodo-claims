@@ -50,16 +50,13 @@ namespace KomodoClaimsConsole
                 Console.WriteLine("Please enter an amount for your claim");
                 claim.ClaimAmount = int.Parse(Console.ReadLine());
                 Console.WriteLine("Please enter the date the incident occured");
-                if (!DateTime.TryParseExact(Console.ReadLine(), "MM/dd/yyyy", enUS, DateTimeStyles.None, out incidentDate))
+                claim.DateOfIncident = DateTime.Parse(Console.ReadLine());
+                DateTime dateOfClaim = DateTime.Now;
+                double days = (double)(claim.DateOfIncident.Date - dateOfClaim.Date).TotalDays;
+                days = Math.Abs(days);
+                if (days <= 30)
                 {
-                    claim.DateOfIncident = incidentDate;
-                }
-                string dateOfClaim = DateTime.Today.ToString();
-                claim.DateOfClaim = DateTime.Parse(dateOfClaim, enUS, DateTimeStyles.NoCurrentDateDefault);
-                int daysDiff = ((TimeSpan)(claim.DateOfClaim - claim.DateOfIncident)).Days;
-                if (daysDiff <= 30)
-                {
-                    Console.WriteLine((claim.DateOfClaim - claim.DateOfIncident).TotalDays);
+                    Console.WriteLine(days);
                     claim.IsValid = true;
                     Console.WriteLine(claim.IsValid);
                 }
